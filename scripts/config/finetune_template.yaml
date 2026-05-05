@@ -1,0 +1,90 @@
+# ========================
+# Dataset
+# ========================
+paths_file: "..."
+meta_vars_dir: "..."
+data_volume: "..."
+base_finetune_config: null
+preload_to_ram: null 
+
+
+geometry_files:
+  create_geometry_files: false
+  num_workers: 20
+  use_parallel: false
+  verbose: false
+  dem_file: "..."
+  overwrite: false
+
+
+finetune:
+  # ========================
+  # Compute / Cluster Setup
+  # ========================
+  n_nodes: 1
+  n_gpus: 1
+  exact_gpus_specified: 0
+  num_workers: 32
+  accelerator: ddp
+
+  # ========================
+  # Experiment
+  # ========================
+  name: a_great_run
+  experiment: first_trials
+  load: true
+  mlflow_backend_uri: "..."
+  tracking_uri: "..."
+
+  # ========================
+  # Reload
+  # ========================
+  run_id: 8407f8645add41b499620ad280d34786
+  reload_ckpt: last
+  reload_trainer: false
+  reload_hparams: true
+
+  freeze_layers: ['mlp.enc']
+  freeze_input_norm: 1
+
+  load_ids_from_ckpt: false
+
+  fwd_model_file: "HyPlant_SENSOR_DB7_PRR-4-0_FH_model.pkl"
+  fwd_sensitivity_corrector_model_file: "HyPlant_SENSOR_DB7_675_PRR-4-0_FH_model__deg_5__w_hyplant_h_sampling__ridge_alpha0.pkl"
+  fwd_corrector_model_file: null
+
+  # ========================
+  # Train setup
+  # ========================
+  learning_rate: 0.0005
+  min_lr: 0.0001
+  lr_scheduler_factor: 0.97
+
+  max_epochs: 360
+
+  batch_size: 1
+  reader_batch_size: 5
+
+  check_val_every_n_epoch: 10
+
+  # ========================
+  # Dataset
+  # ========================
+  #files_range: [0, 18]  #[0, 19, 2]
+
+  
+  limit_train_batches_perc: 0.5
+  limit_val_batches_perc: 0.1
+  val_frac: 0.25
+
+  batch_sampler: custom_distributed_batch_sampler
+  shard_along: 'none' 
+  shard_along_nr_files_per_proc: 1
+  
+  load: true 
+  load_trn: false 
+  load_val: false 
+  
+  trn_patch_on_init: true 
+  val_patch_on_init: true
+

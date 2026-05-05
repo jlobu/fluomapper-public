@@ -1,0 +1,51 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# ML / data science (common)
+mlruns/
+*.sqlite3
+*.db
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment variables (secrets!)
+.env
+.env.*
+*.env
+
+# IDE / editor configs
+.vscode/
+.idea/
+
+# pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# mypy / type checking
+.mypy_cache/
+.dmypy.json
+
+# optional: notebooks outputs
+*-checkpoint.ipynb

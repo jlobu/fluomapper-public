@@ -1,0 +1,32 @@
+torch==2.5.1
+faiss-cpu
+h5py
+dask
+joblib
+matplotlib
+mlflow
+pvlib
+pysolar
+pyspectral
+rasterio
+rioxarray
+xarray
+scikit-learn
+scipy  #==1.13
+#ArviZ # ==0.18
+test-tube
+torchmetrics
+torchvision
+pandas #<2.0.0
+num2tex
+#kornia
+tqdm
+jupyter
+pytorch_lightning #==2.0.8
+geopandas
+fiona  #==1.9.6 
+rasterstats
+netcdf4 
+h5netcdf
+numba
+

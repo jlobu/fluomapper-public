@@ -1,0 +1,31 @@
+# PREDICTION CONFIG
+
+model:
+  ids:
+    - CKA350 # CKA600, WST1500, BASE, TOPO
+  mlflow_backend_uri: "..."
+
+  fluomap:
+    fwd_model_file: "HyPlant_SENSOR_DB7_PRR-4-0_FH_model.pkl"
+    fwd_sensitivity_corrector_model_file: "HyPlant_SENSOR_DB7_675_PRR-4-0_FH_model__deg_5__w_hyplant_h_sampling__ridge_alpha0.pkl"
+
+input:
+  paths_file: "..."
+  data_volume: "..."
+  meta_vars_dir: "..."
+  dem_file: "..."
+
+output:
+  save_dir: "..."
+  dirname: "..."
+
+run:
+  device: "cpu"
+  return_output: true
+  write: true
+  overwrite: true
+  model_verbose: ["CKA350"]  # choose null to skip, must have equal length as model.ids
+  create_geometry_files: false
+  num_workers: 20
+  use_parallel: false
+  verbose: false

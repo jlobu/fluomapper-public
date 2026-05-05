@@ -1,0 +1,270 @@
+# ========================
+# Compute / Cluster Setup
+# ========================
+n_nodes: 1
+n_gpus: 1
+exact_gpus_specified: 0
+n_cpus: 32
+num_workers: 32
+persistent_workers: 1
+accelerator: ddp
+job_time: "12:00:00"
+shard_along_nr_files_per_proc: 1
+sync_batchnorm: true
+
+# ========================
+# Experiment
+# ========================
+name: experiment
+load: true
+mlflow_backend_uri: "..."
+tracking_uri: "..."
+
+# ========================
+# Dataset
+# ========================
+dset: hyplant_meta_var
+paths_file: "..."
+
+train_files: [0]
+val_files: [0]
+file_ids: [0]
+
+out_mode: windows
+out_shape: 61
+out_stride: 61
+
+batch_sampler: custom_distributed_batch_sampler
+shard_along: files
+
+batch_size: 1
+reader_batch_size: 5
+
+shuffle_dataset: true
+val_frac: 0.5
+
+val_patch_on_init: 1
+trn_patch_on_init: 1
+
+limit_train_batches_perc: 0.5
+limit_val_batches_perc: 0.1
+
+with_interpolation: false
+mask_dark_px: 1
+
+# ========================
+# Model Architecture
+# ========================
+model: fwdnn
+model_type: enc
+
+dims: [100, 100, 50]
+rep: [3, 3, 1]
+rep_with_bn: 1
+residual: 1
+in_bn: 0
+nonlin: relu
+nonlin_out: relu
+
+shared:
+  dims: [2000, 2000, 1000, 500, 500, 100, 100, 100, 50]
+  dim_out: 50
+  dropout: [0.05, 0.05, 0.01, 0.01, 0.005, 0]
+  rep: [3, 3, 3, 3, 3, 3, 3, 1]
+  residual: true
+  rep_with_bn: true
+
+pass_meta_vars_to_fwd: 1
+pass_meta_vars_to_dec: 1
+pass_idparam_to_enc: 1
+
+with_ids: 1
+ids_mode: to_enc_dec
+id_mode: 8
+path_ids: datetime
+
+manual_features: null #['fft']
+include_spectr: 1
+
+normalize_loss: 0
+
+# ========================
+# Forward Models
+# ========================
+fwd_model_file: "HyPlant_SENSOR_DB7_PRR-4-0_FH_model.pkl"
+fwd_sensitivity_corrector_model_file: "HyPlant_SENSOR_DB7_675_PRR-4-0_FH_model__deg_5__w_hyplant_h_sampling__ridge_alpha0.pkl"
+fwd_corrector_model_file: null
+
+spectral_fwdnn_bands: [84, 265]
+prediction_bands: [735, 916]
+
+allowed_fwd_range: [-0.1, 1.1]
+extrapolate_fwd: 0
+
+poly_emulator_transform: 0
+sigmoid_emulator_transform: 0
+
+# ========================
+# Spectral
+# ========================
+spectral_window_obs_wvl: [0, 2000]
+spectral_window_label_wvl: 761
+
+with_spectral_deriv: 0
+with_spectral_deriv_reg: 0
+spectral_deriv_reg_weight: 1
+
+# ========================
+# Meta Variables
+# ========================
+meta_vars: ['dem_sensor', 'scene_incidence_sensor', 'parm1_sensor']
+meta_vars_dir: all_geom
+meta_info: ['ndvi', 'sza', 'off_nadir', 'alt', 'dist']
+meta_vars_exclude: ['ndvi', 'off_nadir', 'dist']
+
+# ========================
+# Geometry / Sensor
+# ========================
+non_constant_cw_mode: free
+non_constant_sensor_mode_range: 3
+
+constant_fwhm_shift: 1
+constant_cw_shift: 1
+fixed_fwhm: 0.01
+
+global_fwhm_shift: false
+fix_fwhm: false
+
+xtrack_id_reduce_to_n: 16
+
+geo_sourcewise: false
+fwhm_sourcewise: false
+
+# ========================
+# XTrack Variables
+# ========================
+with_xtrack_vars: 1
+xtrack_vars_on_off_nadir: 1
+xtrack_vars_on_source_id: 1
+xtrack_vars_source_id_trainable: 1
+
+xtrack_off_nadir_additive_embedding: 0
+xtrack_off_nadir_concat_embedding: 1
+xtrack_off_nadir_embedding_size: 8
+
+# ========================
+# ATrack Variables
+# ========================
+with_atrack_vars: 1
+atrack_vars_on_dist: 1
+atrack_vars_on_source_id: 1
+atrack_vars_source_id_trainable: 1
+
+# ========================
+# Constraints
+# ========================
+constrain_to_atrack_px: [30, -30]
+off_nadir_label_norm: [142, 384]
+
+mask_h2alt: true
+mask_h2alt_0: true
+
+# ========================
+# Regularization
+# ========================
+with_sif_focus_reg: 1
+sif_focus_mult: 1
+sif_focus_window: [759.55, 761.0]
+sif_focus_detach_R: true
+
+with_ndvi_reg: 1
+ndvi_threshold: 0.1
+ndvi_reg_weight: 10
+
+with_consistency_reg: 0
+consistency_randomized: true
+consistency_reg_weight: 10
+R_consistency: 1
+
+geo_consistency: true
+sensor_consistency: true
+atmo_consistency: true
+
+with_label_reg: 0
+label_reg_labels: ['parm1', 'parm2', 'h1alt']
+label_reg_mults: [2, 4, 2]
+
+with_border_reg: 1
+border_reg_weight: 200
+
+with_shift_reg: 0
+shift_reg_weight: 10
+
+params_unlearn_xtrack: 0
+encoding_unlearn_xtrack_weight: 100
+
+# ========================
+# Loss Control
+# ========================
+with_loss_threshold: 0
+loss_threshold: 100
+
+with_loss_threshold_relative: 0
+loss_threshold_relative: 0.1
+
+loss_threshold_epoch: 200
+ndvi_R_masking_threshold: [1, 0.5]
+
+# ========================
+# Training
+# ========================
+loss: mse
+bayesian_mode: none
+
+learning_rate: 0.0005
+min_lr: 0.0001
+lr_scheduler_factor: 0.97
+
+max_epochs: 1000
+
+load_trn: true
+load_val: true
+
+# ========================
+# Checkpoint Reload
+# ========================
+run_id: 8407f8645add41b499620ad280d34786
+reload_ckpt: last
+reload_trainer: false
+reload_hparams: true
+
+freeze_layers: ['none']
+freeze_input_norm: 1
+
+load_ids_from_ckpt: false
+
+ignore_ckpt_keys:
+  - model.fwd.ffs_sensitivity_corrector
+  - model.fwd
+
+# ========================
+# Validation / Logging
+# ========================
+check_val_every_n_epoch: 10
+
+val_metrics: ['r2', 'hist', 'mse']
+
+lr_monitor_loss: loss_epoch
+log_monitor_loss: sif_focus_mse
+
+hist_lo: 0
+hist_hi: 5
+
+top_k_ckpts: 3
+
+# ========================
+# Hyperparameter Search
+# ========================
+strategy: grid_search
+opt_lists: null
+nb_trials: null
