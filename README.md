@@ -1,8 +1,8 @@
 # fluomapper
 
-## Repository content
-
-This repository contains research code for the following publications
+*fluomapper* is a repository publishing research code for the Spectral Fitting Method Neural Netork (SFMNN) allowing 
+prediction of sun-induced fluorescence (SIF) from hyperspectral imagery acquired by HyPlant and DESIS.
+It contains code on which the following publications are based.
 
 - **J. Buffat**, M. Pato, K. Alonso, S. Auer, E. Carmona, S. Maier, R. Müller, P. Rademske, U. Rascher, and H. Scharr,
   “Emulation-based self-supervised SIF retrieval in the O2-A absorption band with HyPlant,” *Remote Sensing of
@@ -17,7 +17,6 @@ This repository contains research code for the following publications
   ECCV 2024 Workshops_, A. Del Bue, C. Canton, J. Pont-Tuset, and T. Tommasi, Eds., Cham: Springer Nature Switzerland,
   2025, pp. 81–100, isbn:978-3-031-91835-3.
   doi: [10.1007/978-3-031-91835-3_6](https://doi.org/10.1007/978-3-031-91835-3_6)
-
 
 ## Acknowledgements
 
